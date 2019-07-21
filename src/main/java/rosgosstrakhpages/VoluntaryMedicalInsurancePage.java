@@ -1,5 +1,6 @@
 package rosgosstrakhpages;
 
+import cucumber.api.java.ru.Когда;
 import io.qameta.allure.Step;
 import library.BasePage;
 import org.json.simple.JSONObject;
@@ -59,24 +60,28 @@ public class VoluntaryMedicalInsurancePage extends BasePage {
     }
 
     @Step("Check title")
+    @Когда("Проверить загаловок")
     public VoluntaryMedicalInsurancePage checkTitle(){
         Assert.assertTrue(title.getText().contains("добровольное медицинское страхование"));
         return this;
     }
 
     @Step("Send request")
+    @Когда("Отправить заявку")
     public VoluntaryMedicalInsurancePage sendRequest(){
         click(sendRequest);
         return this;
     }
 
     @Step("Check page for text")
+    @Когда("Проверить ДМС на наличиче текста")
     public VoluntaryMedicalInsurancePage checkPageForText(String text){
         Assert.assertTrue(checkPageContainsText(text));
         return this;
     }
 
     @Step("Fill in the form")
+    @Когда("Заполнить форму ДМС")
     public VoluntaryMedicalInsurancePage fillInTheForm(JSONObject jsonObject){
         setText(lastName, jsonObject.get("lastName").toString());
         setText(firstName, jsonObject.get("firstName").toString());
@@ -92,6 +97,7 @@ public class VoluntaryMedicalInsurancePage extends BasePage {
     }
 
     @Step("Check form")
+    @Когда("Проверить заполнение формы ДМС")
     public VoluntaryMedicalInsurancePage checkForm(JSONObject jsonObject){
         Assert.assertEquals(
                 "\nError! \nExpected: "

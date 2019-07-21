@@ -1,4 +1,7 @@
+package org.turtledream;
+
 import io.qameta.allure.Step;
+import org.junit.Ignore;
 import library.BaseTest;
 import org.json.simple.JSONObject;
 import org.junit.Test;
@@ -13,6 +16,7 @@ import java.util.Map;
 
 public class Tests extends BaseTest {
 
+    @Ignore
     @Test
     @Step("Start rosgosstrakh test")
     public void rosgosstrakhTest(){
@@ -27,7 +31,8 @@ public class Tests extends BaseTest {
         personalInfo.put("comment", "Здесь могла быть ваша реклама");
 
         rosgosstrakhPage
-                .goToRgs()
+                .goToRgs();
+        rosgosstrakhPage
                 .goToVMI();
 
         voluntaryMedicalInsurancePage
@@ -41,6 +46,7 @@ public class Tests extends BaseTest {
         voluntaryMedicalInsurancePage.checkForm(personalInfo);
     }
 
+    @Ignore
     @Test
     @Step("Start sberbank test")
     public void sberbankTest() {

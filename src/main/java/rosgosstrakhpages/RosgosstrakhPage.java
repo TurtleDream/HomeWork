@@ -19,9 +19,8 @@ public class RosgosstrakhPage extends BasePage {
     }
 
     @Step("Go to RGS page")
-    public RosgosstrakhPage goToRgs(){
+    public void goToRgs(){
         goToPage(webDriver,"https://www.rgs.ru/");
-        return this;
     }
 
     @Step("Go to VMI page")
