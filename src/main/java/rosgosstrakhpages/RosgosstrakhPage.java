@@ -1,31 +1,33 @@
 package rosgosstrakhpages;
 
-import io.qameta.allure.Step;
+import annotations.FieldName;
 import library.BasePage;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 public class RosgosstrakhPage extends BasePage {
 
-    @FindBy(css = "[data-toggle='dropdown']")
-    private WebElement insurance;
+    @FieldName(name = "Страхование")
+    @FindBy(xpath = "//a[contains(text(), 'Страхование')][@href='#']")
+    public WebElement insurance;
 
-    @FindBy(linkText = "ДМС")
-    private WebElement voluntaryMedicalInsurance;
+    @FieldName(name = "ДМС")
+    @FindBy(xpath = "//li[contains(@class, 'line3')]//a[contains(text(), 'ДМС')]")
+    public WebElement voluntaryMedicalInsurance;
 
-    public RosgosstrakhPage(WebDriver webDriver) {
-        super(webDriver);
-    }
+//    @Step("Go to RGS page")
+//    public void goToRgs(){
+//        goToPage(DriverManager.getDriver(),"https://www.rgs.ru/");
+//    }
 
-    @Step("Go to RGS page")
-    public void goToRgs(){
-        goToPage(webDriver,"https://www.rgs.ru/");
-    }
+//    @Step("Go to VMI page")
+//    public void goToVMI(){
+//        cleck(insurance);
+//        cleck(voluntaryMedicalInsurance);
+//    }
 
-    @Step("Go to VMI page")
-    public void goToVMI(){
-        click(insurance);
-        click(voluntaryMedicalInsurance);
+    @Override
+    public WebElement getField(String name) throws Exception {
+        return getField(name, "rosgosstrakhpages.RosgosstrakhPage");
     }
 }

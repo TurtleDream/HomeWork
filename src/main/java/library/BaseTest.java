@@ -27,11 +27,11 @@ public class BaseTest {
     @After
     public void cleanUp(){
         webDriver.manage().deleteAllCookies();
-        webDriver.close();
         webDriver.quit();
     }
 
     @AfterClass
     public static void tearDown(){
+        webDriver.close();
     }
 }

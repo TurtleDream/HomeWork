@@ -1,5 +1,6 @@
 package rosgosstrakhpages;
 
+import annotations.FieldName;
 import cucumber.api.java.ru.Когда;
 import io.qameta.allure.Step;
 import library.BasePage;
@@ -10,78 +11,85 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
+import utils.DriverManager;
 
 public class VoluntaryMedicalInsurancePage extends BasePage {
 
-    @FindBy(className = "content-document-header")
-    private WebElement title;
+    @FieldName(name = "Заголовок")
+    @FindBy(xpath = "//h1")
+    public WebElement title;
 
-    @FindBy(xpath = "//a[contains(text(),'Отправить заявку')]")
-    private WebElement sendRequest;
+    @FieldName(name = "Отправить заявку")
+    @FindBy(xpath = "//a[contains(@href, '#')][contains(text(), 'Отправить')]")
+    public WebElement sendRequest;
 
-    @FindBy(name = "LastName")
-    private WebElement lastName;
+    @FieldName(name = "Фамилия")
+    @FindBy(xpath = "//input[@name='LastName']")
+    public WebElement lastName;
 
-    @FindBy(name = "FirstName")
-    private WebElement firstName;
+    @FieldName(name = "Имя")
+    @FindBy(xpath = "//input[@name='FirstName']")
+    public WebElement firstName;
 
-    @FindBy(name = "MiddleName")
-    private WebElement middleName;
+    @FieldName(name = "Отчество")
+    @FindBy(xpath = "//input[@name='MiddleName']")
+    public WebElement middleName;
 
-    @FindBy(name = "Region")
-    private WebElement region;
+    @FieldName(name = "Регион")
+    @FindBy(xpath = "//select[@name='Region']")
+    public WebElement region;
 
-    @FindBy(name = "Email")
-    private WebElement email;
+    @FieldName(name = "Почта")
+    @FindBy(xpath = "//input[@name='Email']")
+    public WebElement email;
 
-    @FindBy(name = "Comment")
-    private WebElement comment;
+    @FieldName(name = "Комментарий")
+    @FindBy(xpath = "//textarea[@name='Comment']")
+    public WebElement comment;
 
-    @FindBy(id = "button-m")
-    private WebElement sendButton;
+    @FieldName(name = "Отправить")
+    @FindBy(xpath = "//button[@id='button-m']")
+    public WebElement sendButton;
 
+    @FieldName(name = "Согласие")
     @FindBy(xpath = "//label[contains(text(),'Я согласен на')]")
-    private WebElement consent;
+    public WebElement consent;
 
+    @FieldName(name = "Телефон")
     @FindBy(xpath = "//*[@id=\"applicationForm\"]/div[2]/div[5]/input")
-    private WebElement phoneNumber;
+    public WebElement phoneNumber;
 
-    @FindBy(className = "validation-error-text")
-    private WebElement errorText;
+    @FieldName(name = "Ошибка")
+    @FindBy(xpath = "//span[@class='validation-error-text']")
+    public WebElement errorText;
 
-    @FindBy(className = "form-group col-md-12 col-xs-12")
-    private WebElement regionLable;
+    @FieldName(name = "Регион лейбл")
+    @FindBy(xpath = "//div[@class='form-group col-md-12 col-xs-12'][1]")
+    public WebElement regionLable;
 
-    @FindBy(css = "[value='77']")
-    private WebElement msk;
-
-    public VoluntaryMedicalInsurancePage(WebDriver webDriver) {
-        super(webDriver);
-    }
+    @FieldName(name = "Москва")
+    @FindBy(xpath = "//option[@value='77']")
+    public WebElement msk;
 
     @Step("Check title")
-    @Когда("Проверить загаловок")
     public VoluntaryMedicalInsurancePage checkTitle(){
         Assert.assertTrue(title.getText().contains("добровольное медицинское страхование"));
         return this;
     }
 
     @Step("Send request")
-    @Когда("Отправить заявку")
     public VoluntaryMedicalInsurancePage sendRequest(){
-        click(sendRequest);
+        cleck(sendRequest);
         return this;
     }
 
     @Step("Check page for text")
-    @Когда("Проверить ДМС на наличиче текста")
     public VoluntaryMedicalInsurancePage checkPageForText(String text){
         Assert.assertTrue(checkPageContainsText(text));
         return this;
     }
 
     @Step("Fill in the form")
-    @Когда("Заполнить форму ДМС")
     public VoluntaryMedicalInsurancePage fillInTheForm(JSONObject jsonObject){
         setText(lastName, jsonObject.get("lastName").toString());
         setText(firstName, jsonObject.get("firstName").toString());
@@ -97,7 +105,6 @@ public class VoluntaryMedicalInsurancePage extends BasePage {
     }
 
     @Step("Check form")
-    @Когда("Проверить заполнение формы ДМС")
     public VoluntaryMedicalInsurancePage checkForm(JSONObject jsonObject){
         Assert.assertEquals(
                 "\nError! \nExpected: "
@@ -140,7 +147,7 @@ public class VoluntaryMedicalInsurancePage extends BasePage {
         Assert.assertTrue(select.getAllSelectedOptions().contains(msk));
         click(consent);
 
-        Actions actions = new Actions(this.webDriver);
+        Actions actions = new Actions(DriverManager.getDriver());
         actions.moveToElement(sendRequest).click().build().perform();
 
         Assert.assertTrue(errorText.getText().contains("Введите адрес электронной почты"));
@@ -149,5 +156,10 @@ public class VoluntaryMedicalInsurancePage extends BasePage {
         setText(email, jsonObject.get("email").toString() + "@qwerty.ru");
 
         return this;
+    }
+
+    @Override
+    public WebElement getField(String name) throws Exception {
+        return  getField(name, "rosgosstrakhpages.VoluntaryMedicalInsurancePage");
     }
 }

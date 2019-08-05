@@ -1,32 +1,37 @@
 package sberbankpages;
 
+import annotations.FieldName;
 import io.qameta.allure.Step;
 import library.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import utils.DriverManager;
 
 public class SberbankPersonPage extends BasePage {
 
-    @FindBy (xpath = "//span[contains(text(), 'Страхование')]")
-    private WebElement insurance;
+    @FieldName(name = "Страхование")
+    @FindBy (xpath = "//span[contains(text(), 'Страхование')]//parent::button")
+    public WebElement insurance;
 
-    @FindBy (xpath = "//a[contains(text(), 'Путешествия и покупки')]")
-    private WebElement travelsAndPurchases;
+    @FieldName(name = "Путешествия и покупки")
+    @FindBy (xpath = "//li[@class='lg-menu__sub-item']//a[contains(text(), 'Страхование путешественников')]")
+    public WebElement travelsAndPurchases;
 
-    public SberbankPersonPage(WebDriver webDriver) {
-        super(webDriver);
-    }
+//    @Step("Go to Sberbank Person")
+//    public SberbankPersonPage goToSberPerson(){
+//        goToPage(DriverManager.getDriver(),"http://www.sberbank.ru/ru/person");
+//        return this;
+//    }
+//
+//    @Step("Go to Travels and purchases page")
+//    public void goToTravelsAndPurchases(){
+//        click(insurance);
+//        click(travelsAndPurchases);
+//    }
 
-    @Step("Go to Sberbank Person")
-    public SberbankPersonPage goToSberPerson(){
-        goToPage(webDriver,"http://www.sberbank.ru/ru/person");
-        return this;
-    }
-
-    @Step("Go to Travels and purchases page")
-    public void goToTravelsAndPurchases(){
-        click(insurance);
-        click(travelsAndPurchases);
+    @Override
+    public WebElement getField(String name) throws Exception {
+        return getField(name, "sberbankpages.SberbankPersonPage");
     }
 }
